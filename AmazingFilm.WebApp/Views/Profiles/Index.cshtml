@@ -1,0 +1,56 @@
+﻿@model IEnumerable<AmazingFilm.DomainModel.Entities.Profile>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Birthday)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoUrl)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var profile in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => profile.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => profile.Birthday)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => profile.Email)
+                </td>
+                <td>
+                    <img src="@profile.PhotoUrl" style="max-width:200px;height:auto" />
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@profile.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@profile.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@profile.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
