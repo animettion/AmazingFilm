@@ -5,7 +5,6 @@ using System.Text;
 using System.Linq;
 using AmazingFilm.DomainModel.Interfaces.Repositories;
 using AmazingFilm.DomainModel.Entities;
-using AmazingComment.DomainModel.Interfaces.Repositories;
 
 namespace AmazingComment.DomainService
 {

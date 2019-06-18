@@ -13,5 +13,6 @@ namespace AmazingFilm.WebApp.Data
             : base(options)
         {
         }
+        public DbSet<AmazingFilm.DomainModel.Entities.Film> Film { get; set; }
     }
 }

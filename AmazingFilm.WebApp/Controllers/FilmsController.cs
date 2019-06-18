@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AmazingFilm.DomainModel.Entities;
 using AmazingBank.Infrastructure.DataAccess;
 using AmazingFilm.Infrastructure.DataAccess.Contexts;
+using AmazingFilm.Infrastructure.AzureStorage;
 
 namespace AmazingFilm.WebApp.Controllers
 {
@@ -56,12 +57,22 @@ namespace AmazingFilm.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,description,PhotoUrl,Id")] Film film)
+        public async Task<IActionResult> Create([Bind("Name,Description,PhotoUrl,Id")] Film film)
         {
             if (ModelState.IsValid)
             {
                 film.Id = Guid.NewGuid();
                 _context.Add(film);
+
+                //==== Upload da foto do Cliente ====
+                for (int i = 0; i < Request.Form.Files.Count; i++)
+                {
+                    var file = Request.Form.Files[i];
+                    var blobService = new AzureBlobService();
+                    film.PhotoUrl = blobService.UploadFile(file.FileName, file.OpenReadStream(), "photofilm", file.ContentType);
+                }
+                //===================================
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -81,6 +92,7 @@ namespace AmazingFilm.WebApp.Controllers
             {
                 return NotFound();
             }
+
             return View(film);
         }
 
@@ -89,7 +101,7 @@ namespace AmazingFilm.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,description,PhotoUrl,Id")] Film film)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Description,PhotoUrl,Id")] Film film)
         {
             if (id != film.Id)
             {
@@ -100,7 +112,17 @@ namespace AmazingFilm.WebApp.Controllers
             {
                 try
                 {
+                    //==== Upload da foto do Cliente ====
+                    for (int i = 0; i < Request.Form.Files.Count; i++)
+                    {
+                        var file = Request.Form.Files[i];
+                        var blobService = new AzureBlobService();
+                        film.PhotoUrl = blobService.UploadFile(file.FileName, file.OpenReadStream(), "photofilm", file.ContentType);
+                    }
+                    //===================================
+                  
                     _context.Update(film);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

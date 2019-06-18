@@ -6,7 +6,7 @@ using System.Linq;
 using AmazingFilm.DomainModel.Interfaces.Repositories;
 using AmazingFilm.DomainModel.Entities;
 
-namespace AmazingFilmGroup.DomainService
+namespace AmazingFilm.DomainService
 {
     public class FilmGroupService
     {

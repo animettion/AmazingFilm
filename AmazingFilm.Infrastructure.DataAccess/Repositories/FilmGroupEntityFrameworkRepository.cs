@@ -7,7 +7,7 @@ using System.Text;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-namespace AmazingFilmGroup.Infrastructure.DataAccess.Repositories
+namespace AmazingFilm.Infrastructure.DataAccess.Repositories
 {
     public class FilmGroupEntityFrameworkRepository : IFilmGroupRepository
     {

@@ -7,5 +7,7 @@ namespace AmazingFilm.DomainModel.Entities
     public class FilmGroup : EntityBase<Guid>
     {
         public string Name { get; set; }
+
+        public virtual ICollection<FilmGroupFilm> Films { get; set; }
     }
 }

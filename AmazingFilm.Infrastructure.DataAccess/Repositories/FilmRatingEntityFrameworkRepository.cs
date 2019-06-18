@@ -7,7 +7,7 @@ using System.Text;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-namespace AmazingFilmRating.Infrastructure.DataAccess.Repositories
+namespace AmazingFilm.Infrastructure.DataAccess.Repositories
 {
     public class FilmRatingEntityFrameworkRepository : IFilmRatingRepository
     {

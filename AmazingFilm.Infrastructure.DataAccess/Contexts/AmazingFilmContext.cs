@@ -8,11 +8,13 @@ namespace AmazingFilm.Infrastructure.DataAccess.Contexts
 {
     public class AmazingFilmContext : DbContext
     {
-        public DbSet<Profile> Profiles { get; set; }
-        public DbSet<Film> Films { get; set; }
-        public DbSet<FilmGroup> FilmGroups { get; set; }
+        public virtual DbSet<Profile> Profiles { get; set; }
+        public virtual DbSet<Film> Films { get; set; }
+        public virtual DbSet<FilmGroup> FilmGroups { get; set; }
+        public virtual DbSet<FilmRating> FilmRatings { get; set; }
 
-        public DbSet<FilmRating> FilmRatings { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
+
         public AmazingFilmContext()
         {
             Database.EnsureCreated();
