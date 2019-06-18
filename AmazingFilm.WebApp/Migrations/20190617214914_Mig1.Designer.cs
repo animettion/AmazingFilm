@@ -4,20 +4,78 @@ using AmazingFilm.WebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace AmazingFilm.WebApp.Data.Migrations
+namespace AmazingFilm.WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190617214914_Mig1")]
+    partial class Mig1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("AmazingFilm.DomainModel.Entities.Film", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("PhotoUrl");
+
+                    b.Property<string>("description");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Film");
+                });
+
+            modelBuilder.Entity("AmazingFilm.DomainModel.Entities.FilmGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("FilmId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FilmId");
+
+                    b.ToTable("FilmGroup");
+                });
+
+            modelBuilder.Entity("AmazingFilm.DomainModel.Entities.Profile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Birthday");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Password");
+
+                    b.Property<string>("PhotoUrl");
+
+                    b.Property<Guid?>("ProfileId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("Profile");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -182,6 +240,20 @@ namespace AmazingFilm.WebApp.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("AmazingFilm.DomainModel.Entities.FilmGroup", b =>
+                {
+                    b.HasOne("AmazingFilm.DomainModel.Entities.Film")
+                        .WithMany("groups")
+                        .HasForeignKey("FilmId");
+                });
+
+            modelBuilder.Entity("AmazingFilm.DomainModel.Entities.Profile", b =>
+                {
+                    b.HasOne("AmazingFilm.DomainModel.Entities.Profile")
+                        .WithMany("Friends")
+                        .HasForeignKey("ProfileId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

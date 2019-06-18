@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DbConnectionString" xml:space="preserve">
-    <value>COLOQUE AQUI A STRING DE CONEXÃO</value>
+    <value>Data Source=amazingfilm.database.windows.net;Initial Catalog=amazingFilm;User ID=us_amazingfilm;Password=US_amazing;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False</value>
   </data>
 </root>

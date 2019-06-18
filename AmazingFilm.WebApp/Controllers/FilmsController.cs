@@ -6,29 +6,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AmazingFilm.DomainModel.Entities;
+using AmazingBank.Infrastructure.DataAccess;
 using AmazingFilm.Infrastructure.DataAccess.Contexts;
-using System.Web;
-using AmazingFilm.Infrastructure.AzureStorage;
 
 namespace AmazingFilm.WebApp.Controllers
 {
-    public class ProfilesController : Controller
+    public class FilmsController : Controller
     {
         private readonly AmazingFilmContext _context;
 
-        public ProfilesController()
+        public FilmsController()
         {
             AmazingFilmContext context = new AmazingFilmContext();
             _context = context;
         }
 
-        // GET: Profiles
+        // GET: Films
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Profiles.ToListAsync());
+            return View(await _context.Films.ToListAsync());
         }
 
-        // GET: Profiles/Details/5
+        // GET: Films/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -36,50 +35,40 @@ namespace AmazingFilm.WebApp.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Profiles
+            var film = await _context.Films
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (client == null)
+            if (film == null)
             {
                 return NotFound();
             }
 
-            return View(client);
+            return View(film);
         }
 
-        // GET: Profiles/Create
+        // GET: Films/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Profiles/Create
+        // POST: Films/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Birthday,Phone,PhotoUrl,Email,Id")] Profile profile)
+        public async Task<IActionResult> Create([Bind("Name,description,PhotoUrl,Id")] Film film)
         {
             if (ModelState.IsValid)
             {
-                profile.Id = Guid.NewGuid();
-                _context.Add(profile);
-
-                //==== Upload da foto do Cliente ====
-                for (int i=0; i<Request.Form.Files.Count; i++)
-                {
-                    var file = Request.Form.Files[i];
-                    var blobService = new AzureBlobService();
-                    profile.PhotoUrl = blobService.UploadFile(file.FileName,file.OpenReadStream(),"Profiles", file.ContentType);
-                }
-                //===================================
-
+                film.Id = Guid.NewGuid();
+                _context.Add(film);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(profile);
+            return View(film);
         }
 
-        // GET: Profiles/Edit/5
+        // GET: Films/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -87,22 +76,22 @@ namespace AmazingFilm.WebApp.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Profiles.FindAsync(id);
-            if (client == null)
+            var film = await _context.Films.FindAsync(id);
+            if (film == null)
             {
                 return NotFound();
             }
-            return View(client);
+            return View(film);
         }
 
-        // POST: Profiles/Edit/5
+        // POST: Films/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Birthday,Phone,Email,PhotoUrl,Id")] Profile profile)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,description,PhotoUrl,Id")] Film film)
         {
-            if (id != profile.Id)
+            if (id != film.Id)
             {
                 return NotFound();
             }
@@ -111,12 +100,12 @@ namespace AmazingFilm.WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(profile);
+                    _context.Update(film);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClientExists(profile.Id))
+                    if (!FilmExists(film.Id))
                     {
                         return NotFound();
                     }
@@ -127,10 +116,10 @@ namespace AmazingFilm.WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(profile);
+            return View(film);
         }
 
-        // GET: Profiles/Delete/5
+        // GET: Films/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -138,30 +127,30 @@ namespace AmazingFilm.WebApp.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Profiles
+            var film = await _context.Films
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (client == null)
+            if (film == null)
             {
                 return NotFound();
             }
 
-            return View(client);
+            return View(film);
         }
 
-        // POST: Profiles/Delete/5
+        // POST: Films/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var client = await _context.Profiles.FindAsync(id);
-            _context.Profiles.Remove(client);
+            var film = await _context.Films.FindAsync(id);
+            _context.Films.Remove(film);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClientExists(Guid id)
+        private bool FilmExists(Guid id)
         {
-            return _context.Profiles.Any(e => e.Id == id);
+            return _context.Films.Any(e => e.Id == id);
         }
     }
 }

@@ -9,7 +9,10 @@ namespace AmazingFilm.Infrastructure.DataAccess.Contexts
     public class AmazingFilmContext : DbContext
     {
         public DbSet<Profile> Profiles { get; set; }
+        public DbSet<Film> Films { get; set; }
+        public DbSet<FilmGroup> FilmGroups { get; set; }
 
+        public DbSet<FilmRating> FilmRatings { get; set; }
         public AmazingFilmContext()
         {
             Database.EnsureCreated();
