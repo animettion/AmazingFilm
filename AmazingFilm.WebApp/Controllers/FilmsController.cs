@@ -43,12 +43,16 @@ namespace AmazingFilm.WebApp.Controllers
                 return NotFound();
             }
 
+
             return View(film);
         }
 
         // GET: Films/Create
         public IActionResult Create()
-        {
+        {   
+            ViewBag.Groups = _context.FilmGroups.Select(c => new SelectListItem()
+            { Text = c.Name, Value = c.Id.ToString() }).ToList();
+
             return View();
         }
 
