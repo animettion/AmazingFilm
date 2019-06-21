@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using AmazingFilm.Infrastructure.DataAccess.Factories;
 
 namespace AmazingFilm.Infrastructure.DataAccess.Repositories
 {
@@ -14,9 +15,9 @@ namespace AmazingFilm.Infrastructure.DataAccess.Repositories
 
         private readonly AmazingFilmContext _db;
 
-        public FilmGroupEntityFrameworkRepository(AmazingFilmContext db)
+        public FilmGroupEntityFrameworkRepository()
         {
-            _db = db;
+            _db = new AmazingFilmContextFactory().CreateDbContext(null);
         }
 
         public void Create(FilmGroup entity)

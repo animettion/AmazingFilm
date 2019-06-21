@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using AmazingFilm.Infrastructure.DataAccess.Factories;
 
 namespace AmazingFilm.Infrastructure.DataAccess.Repositories
 {
@@ -14,9 +15,9 @@ namespace AmazingFilm.Infrastructure.DataAccess.Repositories
 
         private readonly AmazingFilmContext _db;
 
-        public CommentEntityFrameworkRepository(AmazingFilmContext db)
+        public CommentEntityFrameworkRepository()
         {
-            _db = db;
+            _db = new AmazingFilmContextFactory().CreateDbContext(null);
         }
 
         public void Create(Comment entity)
@@ -25,25 +26,29 @@ namespace AmazingFilm.Infrastructure.DataAccess.Repositories
             _db.SaveChanges();
         }
 
-        public IEnumerable<Comment> SearchByFilm(Guid idfilme)
-        {
-            return ReadAll()
-                .Where(cli => cli.Film.Id == idfilme);
-        }
-
         public void Delete(Guid id)
         {
             _db.Remove(Read(id));
             _db.SaveChanges();
         }
 
-
-        public IEnumerable<Comment> FindByFilm(Guid idfilme)
+        public IEnumerable<Comment> GetByFilm(Guid Id)
         {
             //_db.Comments.FromSql($"Select * from Comments where Name LIKE %{name}%");
+          
+            var aux =  _db.Comments
+                .Where(cli => cli.FilmId == Id)
+                .Select(m => new Comment
+                {
+                    FilmId = m.FilmId,
+                    ProfileId = m.ProfileId,
+                    profile = _db.Profiles.Where(p=>p.Id == m.ProfileId).FirstOrDefault(),
+                    PublishDateTime = m.PublishDateTime,
+                    Text = m.Text,
+                    Id = Id
+                });
 
-            return _db.Comments
-                .Where(cli => cli.Film.Id == idfilme);
+            return aux;
         }
 
         public Comment Read(Guid id)
@@ -53,8 +58,20 @@ namespace AmazingFilm.Infrastructure.DataAccess.Repositories
 
         public IEnumerable<Comment> ReadAll()
         {
-            return _db.Comments;
+            var aux = _db.Comments
+               .Select(m => new Comment
+               {
+                   FilmId = m.FilmId,
+                   ProfileId = m.ProfileId,
+                   profile = _db.Profiles.Where(p => p.Id == m.ProfileId).FirstOrDefault(),
+                   PublishDateTime = m.PublishDateTime,
+                   Text = m.Text,
+                   Id = m.Id
+               });
+
+            return aux;
         }
+    
 
         public void Update(Comment entity)
         {

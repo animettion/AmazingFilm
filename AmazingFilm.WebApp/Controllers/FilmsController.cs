@@ -6,26 +6,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AmazingFilm.DomainModel.Entities;
-using AmazingBank.Infrastructure.DataAccess;
 using AmazingFilm.Infrastructure.DataAccess.Contexts;
 using AmazingFilm.Infrastructure.AzureStorage;
+using AmazingFilm.DomainService.Interfaces;
+using System.Dynamic;
 
 namespace AmazingFilm.WebApp.Controllers
 {
     public class FilmsController : Controller
     {
-        private readonly AmazingFilmContext _context;
+        private readonly IFilmService _service;
+        private readonly IFilmGroupService _servicegroup;
+        private readonly ICommentService _servicecomment;
+        private readonly IProfileService _serviceprofile;
 
-        public FilmsController()
+        public FilmsController(IFilmService serv, IFilmGroupService servgroup, ICommentService servcomment, IProfileService servprofile)
         {
-            AmazingFilmContext context = new AmazingFilmContext();
-            _context = context;
+            _service = serv;
+            _servicegroup = servgroup;
+            _servicecomment = servcomment;
+            _serviceprofile = servprofile;
         }
 
         // GET: Films
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Films.ToListAsync());
+            return View(_service.GetAllFilms().OrderBy(p => p.Name).ToList());
         }
 
         // GET: Films/Details/5
@@ -36,21 +42,24 @@ namespace AmazingFilm.WebApp.Controllers
                 return NotFound();
             }
 
-            var film = await _context.Films
-                .FirstOrDefaultAsync(m => m.Id == id);
+
+
+            var film = _service.GetFilmById(id.Value);
             if (film == null)
             {
                 return NotFound();
             }
-
-
+            //dynamic mymodel = new ExpandoObject();
+            //ViewBag.Film = film;
+            //ViewBag.Comment = _servicecomment.GetByFilm(film.Id);
+           
             return View(film);
         }
 
         // GET: Films/Create
         public IActionResult Create()
-        {   
-            ViewBag.Groups = _context.FilmGroups.Select(c => new SelectListItem()
+        {
+            ViewBag.Groups = _servicegroup.GetAllFilmGroups().Select(c => new SelectListItem()
             { Text = c.Name, Value = c.Id.ToString() }).ToList();
 
             return View();
@@ -61,12 +70,11 @@ namespace AmazingFilm.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,PhotoUrl,Id")] Film film)
+        public async Task<IActionResult> Create([Bind("Name,Description,PhotoUrl,Id,IdGroup")] Film film)
         {
             if (ModelState.IsValid)
             {
                 film.Id = Guid.NewGuid();
-                _context.Add(film);
 
                 //==== Upload da foto do Cliente ====
                 for (int i = 0; i < Request.Form.Files.Count; i++)
@@ -77,7 +85,7 @@ namespace AmazingFilm.WebApp.Controllers
                 }
                 //===================================
 
-                await _context.SaveChangesAsync();
+                _service.AddFilm(film);
                 return RedirectToAction(nameof(Index));
             }
             return View(film);
@@ -91,11 +99,14 @@ namespace AmazingFilm.WebApp.Controllers
                 return NotFound();
             }
 
-            var film = await _context.Films.FindAsync(id);
+            var film = _service.GetFilmById(id.Value);
             if (film == null)
             {
                 return NotFound();
             }
+
+            ViewBag.Groups = _servicegroup.GetAllFilmGroups().Select(c => new SelectListItem()
+            { Text = c.Name, Value = c.Id.ToString() }).ToList();
 
             return View(film);
         }
@@ -105,7 +116,7 @@ namespace AmazingFilm.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Description,PhotoUrl,Id")] Film film)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Description,PhotoUrl,Id,IdGroup")] Film film)
         {
             if (id != film.Id)
             {
@@ -124,10 +135,9 @@ namespace AmazingFilm.WebApp.Controllers
                         film.PhotoUrl = blobService.UploadFile(file.FileName, file.OpenReadStream(), "photofilm", file.ContentType);
                     }
                     //===================================
-                  
-                    _context.Update(film);
 
-                    await _context.SaveChangesAsync();
+                    _service.UpdateFilm(film);
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -153,8 +163,7 @@ namespace AmazingFilm.WebApp.Controllers
                 return NotFound();
             }
 
-            var film = await _context.Films
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var film = _service.GetFilmById(id.Value);
             if (film == null)
             {
                 return NotFound();
@@ -168,15 +177,14 @@ namespace AmazingFilm.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var film = await _context.Films.FindAsync(id);
-            _context.Films.Remove(film);
-            await _context.SaveChangesAsync();
+            var film = _service.GetFilmById(id);
+            _service.DeleteFilm(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool FilmExists(Guid id)
         {
-            return _context.Films.Any(e => e.Id == id);
+            return _service.GetFilmById(id) != null;
         }
     }
 }

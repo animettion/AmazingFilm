@@ -9,6 +9,6 @@ namespace AmazingFilm.DomainModel.Interfaces.Repositories
 {
     public interface ICommentRepository : IRepository<Comment,Guid>
     {
-        IEnumerable<Comment> SearchByFilm(Guid idFilm);
+        IEnumerable<Comment> GetByFilm(Guid idFilm);
     }
 }

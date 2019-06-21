@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using AmazingFilm.Infrastructure.DataAccess.Factories;
 
 namespace AmazingFilm.Infrastructure.DataAccess.Repositories
 {
@@ -13,10 +14,10 @@ namespace AmazingFilm.Infrastructure.DataAccess.Repositories
     {
 
         private readonly AmazingFilmContext _db;
-        
-        public ProfileEntityFrameworkRepository(AmazingFilmContext db)
+
+        public ProfileEntityFrameworkRepository()
         {
-            _db = db;
+            _db = new AmazingFilmContextFactory().CreateDbContext(null);
         }
 
         public void Create(Profile entity)
@@ -31,14 +32,6 @@ namespace AmazingFilm.Infrastructure.DataAccess.Repositories
             _db.SaveChanges();
         }
 
-        public IEnumerable<Profile> FindByName(string name)
-        {
-            //_db.Profiles.FromSql($"Select * from Profiles where Name LIKE %{name}%");
-
-            return _db.Profiles
-                .Where(cli => EF.Functions
-                .Like(cli.Name, $"%{name}%"));
-        }
 
         public Profile Read(Guid id)
         {

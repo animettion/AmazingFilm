@@ -15,6 +15,11 @@ namespace AmazingFilm.Infrastructure.DataAccess.Contexts
 
         public virtual DbSet<Comment> Comments { get; set; }
 
+        public AmazingFilmContext(DbContextOptions<AmazingFilmContext> options) : base(options)
+        {
+            Database.EnsureCreated();
+        }
+
         public AmazingFilmContext()
         {
             Database.EnsureCreated();

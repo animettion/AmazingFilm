@@ -7,6 +7,6 @@ namespace AmazingFilm.DomainModel.Interfaces.Repositories
 {
     public interface IProfileRepository : IRepository<Profile,Guid>
     {
-        IEnumerable<Profile> FindByName(string name);
+        
     }
 }

@@ -13,11 +13,11 @@ namespace AmazingFilm.DomainModel.Entities
         public string PhotoUrl { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public virtual ICollection<Profile> Friends { get; set; }
+        
 
         public Profile()
         {
-            Friends = new List<Profile>();
+        
         }
         
     }

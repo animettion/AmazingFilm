@@ -12,6 +12,11 @@ using Microsoft.EntityFrameworkCore;
 using AmazingFilm.WebApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using AmazingFilm.DomainModel.Interfaces.Repositories;
+using AmazingFilm.Infrastructure.DataAccess.Repositories;
+using AmazingFilm.DomainService.Interfaces;
+using AmazingFilm.DomainService;
+using AmazingComment.DomainService;
 
 namespace AmazingFilm.WebApp
 {
@@ -34,13 +39,25 @@ namespace AmazingFilm.WebApp
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDefaultIdentity<IdentityUser>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddScoped<IFilmGroupRepository, FilmGroupEntityFrameworkRepository>();
+            services.AddScoped<IFilmGroupService, FilmGroupService>();
+
+            services.AddScoped<IFilmRepository, FilmEntityFrameworkRepository>();
+            services.AddScoped<IFilmService, FilmService>();
+
+            services.AddScoped<ICommentRepository, CommentEntityFrameworkRepository>();
+            services.AddScoped<ICommentService, CommentService>();
+
+            services.AddScoped<IProfileRepository, ProfileEntityFrameworkRepository>();
+            services.AddScoped<IProfileService, ProfileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,7 +84,7 @@ namespace AmazingFilm.WebApp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Films}/{action=Index}/{id?}");
             });
         }
     }

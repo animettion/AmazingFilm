@@ -13,18 +13,15 @@
         <form action="~/Films/Create" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                
+                <label  class="control-label">Group</label>
+                <select asp-for="IdGroup" class="form-control" asp-items="ViewBag.Groups">
+                    <option>Selecione</option>
 
-                <div class="col-md-10">
-                    <label class="control-label">Categoria</label><br />
-                    <select asp-for="IdGroup" class="form-control" asp-items="ViewBag.Groups" >
-                        <option value="">Selecione</option>
-                    </select>
-                    
+                </select>
+                <span asp-validation-for="IdGroup" class="text-danger"></span>
 
-                    @*@Html.DropDownList("Groups")*@
-                </div>
-                <br /><br />
+                @*@Html.DropDownList("Groups")*@
+
             </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -33,7 +30,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control" ></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -8,6 +8,5 @@ namespace AmazingFilm.DomainModel.Entities
     {
         public string Name { get; set; }
 
-        public virtual ICollection<FilmGroupFilm> Films { get; set; }
     }
 }

@@ -21,10 +21,10 @@ namespace AmazingFilm.Infrastructure.DataAccess.Repositories
             _set.Remove(Read(id));
         }
 
-        public IEnumerable<Comment> SearchByFilm(Guid idfilme)
+        public IEnumerable<Comment> GetByFilm(Guid idfilme)
         {
             return ReadAll()
-                .Where(cli => cli.Film.Id == idfilme);
+                .Where(cli => cli.FilmId == idfilme);
         }
 
        

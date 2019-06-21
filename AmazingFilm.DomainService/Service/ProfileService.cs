@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using AmazingFilm.DomainService.Interfaces;
 
 namespace AmazingFilm.DomainService
 {
-    public class ProfileService
+    public class ProfileService : IProfileService
     {
         private IProfileRepository _ProfileRepository;
 
@@ -31,11 +32,6 @@ namespace AmazingFilm.DomainService
             return _ProfileRepository.Read(id);
         }
 
-        public IEnumerable<Profile> SearchByName(string name)
-        {
-            return _ProfileRepository.ReadAll()
-                .Where(c => c.Name.ToLower()
-                .Contains(name.ToLower()));
-        }
+
     }
 }

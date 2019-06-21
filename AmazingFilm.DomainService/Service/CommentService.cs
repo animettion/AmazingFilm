@@ -5,10 +5,11 @@ using System.Text;
 using System.Linq;
 using AmazingFilm.DomainModel.Interfaces.Repositories;
 using AmazingFilm.DomainModel.Entities;
+using AmazingFilm.DomainService.Interfaces;
 
 namespace AmazingComment.DomainService
 {
-    public class CommentService
+    public class CommentService : ICommentService
     {
         private ICommentRepository _CommentRepository;
 
@@ -32,10 +33,13 @@ namespace AmazingComment.DomainService
             return _CommentRepository.Read(id);
         }
 
-        public IEnumerable<Comment> SearchByFilm(Guid idFilm)
+        public IEnumerable<Comment> GetByFilm(Guid idFilm)
         {
-            return _CommentRepository.ReadAll()
-                .Where(c => c.Film.Id == idFilm);
+            var aux =  _CommentRepository.ReadAll()                  
+                .Where(c => c.FilmId == idFilm);
+
+
+            return aux;
         }
     }
 }

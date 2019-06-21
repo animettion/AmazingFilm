@@ -4,12 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using AmazingFilm.DomainService.Interfaces;
 
 namespace AmazingFilm.DomainService
 {
-    public class FilmService
+    public class FilmService: IFilmService
     {
-        private IFilmRepository _FilmRepository;
+        private readonly IFilmRepository _FilmRepository;
 
         public FilmService(IFilmRepository FilmRepository)
         {
@@ -21,6 +22,15 @@ namespace AmazingFilm.DomainService
             _FilmRepository.Create(Film);
         }
 
+        public void UpdateFilm(Film Film)
+        {
+            _FilmRepository.Update(Film);
+        }
+
+        public void DeleteFilm(Guid id)
+        {
+            _FilmRepository.Delete(id);
+        }
         public IEnumerable<Film> GetAllFilms()
         {
             return _FilmRepository.ReadAll();

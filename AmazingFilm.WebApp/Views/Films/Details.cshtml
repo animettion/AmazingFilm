@@ -1,36 +1,63 @@
 ﻿@model AmazingFilm.DomainModel.Entities.Film
 
+
 @{
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
 
 <div>
-    <h4>Film</h4>
+    <h2>  </h2>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PhotoUrl)
-        </dt>
-        <dd>
-            <img src="@Html.DisplayFor(model => model.PhotoUrl)" style="max-width:200px;height:auto" />
-        </dd>
-    </dl>
+    <table class="table">
+        <tr>
+            <th rowspan="2">
+                <img src="    @Html.DisplayFor(model => model.PhotoUrl)" style="max-width:300px;height:auto" />
+            </th>
+            <td style="height:40px">
+                <h3> @Html.DisplayFor(model => model.Name)</h3>
+            </td>
+        </tr>
+        <tr>
+
+            <td>  @Html.DisplayFor(model => model.Description)</td>
+        </tr>
+        <tr>
+            <td>
+                @*<div class="form-group">
+                    <label asp-for="Text" class="control-label"></label>
+                    <input asp-for="Text" class="form-control" />
+                    <span asp-validation-for="Text" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>*@
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table class="table">
+                    @foreach (var item in Model.Comments)
+                    {
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">@item.profile.Name - @item.PublishDateTime</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@item.Text</td>
+                            </tr>
+
+                        </tbody>
+                    }
+                </table>
+            </td>
+
+    </table>
+
+
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
 </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AmazingFilm.WebApp</title>
+    <title>@ViewData["Title"] - Amazing Film</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -26,26 +26,29 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">AmazingFilm.WebApp</a>
+                <marquee><a asp-area="" asp-controller="Films" asp-action="Index" class="navbar-brand">Amazing Film</a></marquee>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Films" asp-action="Index">Film</a></li>
+                    <li><a asp-area="" asp-controller="FilmGroups" asp-action="Index">Group</a></li>
+
                 </ul>
-                <partial name="_LoginPartial" />
+
             </div>
         </div>
     </nav>
 
     <partial name="_CookieConsentPartial" />
+    <br />
 
-    <div class="container body-content">
+    <div class="container" style="width: 70%; margin: 0 auto; background-color:#D8D8D8;" >
+
         @RenderBody()
+
         <hr />
         <footer>
-            <p>&copy; 2019 - AmazingFilm.WebApp</p>
+            <p>&copy; 2019 - Amazing Film</p>
         </footer>
     </div>
 

@@ -8,23 +8,24 @@ using Microsoft.EntityFrameworkCore;
 using AmazingFilm.DomainModel.Entities;
 using AmazingFilm.WebApp.Data;
 using AmazingFilm.Infrastructure.DataAccess.Contexts;
+using AmazingFilm.DomainService;
+using AmazingFilm.DomainService.Interfaces;
 
 namespace AmazingFilm.WebApp.Controllers
 {
     public class FilmGroupsController : Controller
     {
-        private readonly AmazingFilmContext _context;
+        private readonly IFilmGroupService _service;
 
-        public FilmGroupsController()
-        {
-            AmazingFilmContext context = new AmazingFilmContext();
-            _context = context;
+        public FilmGroupsController(IFilmGroupService serv)
+        {   
+            _service = serv;
         }
 
         // GET: FilmGroups
         public async Task<IActionResult> Index()
         {
-            return View(await _context.FilmGroups.ToListAsync());
+            return View(_service.GetAllFilmGroups());
         }
 
         // GET: FilmGroups/Details/5
@@ -35,8 +36,7 @@ namespace AmazingFilm.WebApp.Controllers
                 return NotFound();
             }
 
-            var filmGroup = await _context.FilmGroups
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var filmGroup = _service.GetFilmGroupById(id.Value);
             if (filmGroup == null)
             {
                 return NotFound();
@@ -61,8 +61,8 @@ namespace AmazingFilm.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 filmGroup.Id = Guid.NewGuid();
-                _context.Add(filmGroup);
-                await _context.SaveChangesAsync();
+                
+                _service.AddFilmGroup(filmGroup);
                 return RedirectToAction(nameof(Index));
             }
             return View(filmGroup);
@@ -76,7 +76,7 @@ namespace AmazingFilm.WebApp.Controllers
                 return NotFound();
             }
 
-            var filmGroup = await _context.FilmGroups.FindAsync(id);
+            var filmGroup = _service.GetFilmGroupById(id.Value);
             if (filmGroup == null)
             {
                 return NotFound();
@@ -100,8 +100,7 @@ namespace AmazingFilm.WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(filmGroup);
-                    await _context.SaveChangesAsync();
+                    _service.UpdateFilmGroup(filmGroup);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -127,8 +126,7 @@ namespace AmazingFilm.WebApp.Controllers
                 return NotFound();
             }
 
-            var filmGroup = await _context.FilmGroups
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var filmGroup = _service.GetFilmGroupById(id.Value);
             if (filmGroup == null)
             {
                 return NotFound();
@@ -142,15 +140,14 @@ namespace AmazingFilm.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var filmGroup = await _context.FilmGroups.FindAsync(id);
-            _context.FilmGroups.Remove(filmGroup);
-            await _context.SaveChangesAsync();
+            
+            _service.DeleteFilmGroup(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool FilmGroupExists(Guid id)
         {
-            return _context.FilmGroups.Any(e => e.Id == id);
+            return _service.GetFilmGroupById(id) != null;
         }
     }
 }

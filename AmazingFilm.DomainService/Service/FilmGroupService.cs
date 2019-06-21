@@ -5,12 +5,13 @@ using System.Text;
 using System.Linq;
 using AmazingFilm.DomainModel.Interfaces.Repositories;
 using AmazingFilm.DomainModel.Entities;
+using AmazingFilm.DomainService.Interfaces;
 
 namespace AmazingFilm.DomainService
 {
-    public class FilmGroupService
+    public class FilmGroupService : IFilmGroupService
     {
-        private IFilmGroupRepository _FilmGroupRepository;
+        private readonly IFilmGroupRepository _FilmGroupRepository;
 
         public FilmGroupService(IFilmGroupRepository FilmGroupRepository)
         {
@@ -22,6 +23,15 @@ namespace AmazingFilm.DomainService
             _FilmGroupRepository.Create(FilmGroup);
         }
 
+        public void UpdateFilmGroup(FilmGroup FilmGroup)
+        {
+            _FilmGroupRepository.Update(FilmGroup);
+        }
+
+        public void DeleteFilmGroup(Guid id)
+        {
+            _FilmGroupRepository.Delete(id);
+        }
         public IEnumerable<FilmGroup> GetAllFilmGroups()
         {
             return _FilmGroupRepository.ReadAll();
