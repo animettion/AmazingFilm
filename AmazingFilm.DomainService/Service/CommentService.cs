@@ -36,7 +36,7 @@ namespace AmazingComment.DomainService
         public IEnumerable<Comment> GetByFilm(Guid idFilm)
         {
             var aux =  _CommentRepository.ReadAll()                  
-                .Where(c => c.FilmId == idFilm);
+                .Where(c => c.FilmId == idFilm).OrderByDescending(p=>p.PublishDateTime);
 
 
             return aux;

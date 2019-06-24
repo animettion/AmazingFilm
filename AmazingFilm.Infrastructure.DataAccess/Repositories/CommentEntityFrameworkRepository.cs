@@ -46,7 +46,7 @@ namespace AmazingFilm.Infrastructure.DataAccess.Repositories
                     PublishDateTime = m.PublishDateTime,
                     Text = m.Text,
                     Id = Id
-                });
+                }).OrderByDescending(p=>p.PublishDateTime);
 
             return aux;
         }

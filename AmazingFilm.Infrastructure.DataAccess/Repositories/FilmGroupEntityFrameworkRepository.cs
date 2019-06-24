@@ -7,6 +7,7 @@ using System.Text;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using AmazingFilm.Infrastructure.DataAccess.Factories;
+using AmazingFilm.DomainModel.ValueObjects;
 
 namespace AmazingFilm.Infrastructure.DataAccess.Repositories
 {
@@ -26,9 +27,9 @@ namespace AmazingFilm.Infrastructure.DataAccess.Repositories
             _db.SaveChanges();
         }
 
-        public void Delete(Guid id)
+        public void Delete(string name)
         {
-            _db.Remove(Read(id));
+            _db.Remove(Read(name));
             _db.SaveChanges();
         }
 
@@ -41,9 +42,9 @@ namespace AmazingFilm.Infrastructure.DataAccess.Repositories
                 .Like(cli.Name, $"%{name}%"));
         }
 
-        public FilmGroup Read(Guid id)
+        public FilmGroup Read(string name)
         {
-            return _db.FilmGroups.Find(id);
+            return _db.FilmGroups.Find(name);
         }
 
         public IEnumerable<FilmGroup> ReadAll()

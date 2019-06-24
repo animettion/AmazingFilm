@@ -19,13 +19,15 @@ namespace AmazingFilm.WebApp.Controllers
         private readonly IFilmGroupService _servicegroup;
         private readonly ICommentService _servicecomment;
         private readonly IProfileService _serviceprofile;
+        private readonly IFilmRatingService _servicefilmrating;
 
-        public FilmsController(IFilmService serv, IFilmGroupService servgroup, ICommentService servcomment, IProfileService servprofile)
+        public FilmsController(IFilmService serv, IFilmGroupService servgroup, ICommentService servcomment, IProfileService servprofile, IFilmRatingService servfilmrating)
         {
             _service = serv;
             _servicegroup = servgroup;
             _servicecomment = servcomment;
             _serviceprofile = servprofile;
+            _servicefilmrating = servfilmrating;
         }
 
         // GET: Films
@@ -50,9 +52,10 @@ namespace AmazingFilm.WebApp.Controllers
                 return NotFound();
             }
             //dynamic mymodel = new ExpandoObject();
-            //ViewBag.Film = film;
-            //ViewBag.Comment = _servicecomment.GetByFilm(film.Id);
-           
+            var rating = _servicefilmrating.GetByFilm(film.Id);
+            ViewBag.qtdLiked = rating.Where(p => p.liked == true).Count();
+            ViewBag.qtdNotLiked = rating.Where(p => p.liked == false).Count();
+
             return View(film);
         }
 
@@ -60,7 +63,7 @@ namespace AmazingFilm.WebApp.Controllers
         public IActionResult Create()
         {
             ViewBag.Groups = _servicegroup.GetAllFilmGroups().Select(c => new SelectListItem()
-            { Text = c.Name, Value = c.Id.ToString() }).ToList();
+            { Text = c.Name, Value = c.Name}).ToList();
 
             return View();
         }
@@ -70,7 +73,7 @@ namespace AmazingFilm.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,PhotoUrl,Id,IdGroup")] Film film)
+        public async Task<IActionResult> Create([Bind("Name,Description,PhotoUrl,Id,GroupName")] Film film)
         {
             if (ModelState.IsValid)
             {
@@ -106,7 +109,7 @@ namespace AmazingFilm.WebApp.Controllers
             }
 
             ViewBag.Groups = _servicegroup.GetAllFilmGroups().Select(c => new SelectListItem()
-            { Text = c.Name, Value = c.Id.ToString() }).ToList();
+            { Text = c.Name, Value = c.Name.ToString() }).ToList();
 
             return View(film);
         }
@@ -116,7 +119,7 @@ namespace AmazingFilm.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Description,PhotoUrl,Id,IdGroup")] Film film)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Description,PhotoUrl,Id,GroupName")] Film film)
         {
             if (id != film.Id)
             {
@@ -185,6 +188,32 @@ namespace AmazingFilm.WebApp.Controllers
         private bool FilmExists(Guid id)
         {
             return _service.GetFilmById(id) != null;
+        }
+
+        public IActionResult AddComment(string idfilm, string comentario)
+        {
+            var idprofile = "214AD554-41AB-4102-A29A-D02780FC744D";
+
+            Comment comment = new Comment();
+            comment.FilmId = Guid.Parse(idfilm);
+            comment.ProfileId = Guid.Parse(idprofile);
+            comment.Text = comentario;
+            _servicecomment.AddComment(comment);
+
+            return RedirectToAction("Index", "Films/Details/" + idfilm);
+        }
+
+        public IActionResult AddRating(string idfilm, bool liked)
+        {
+            var idprofile = "214AD554-41AB-4102-A29A-D02780FC744D";
+
+            FilmRating filmrating = new FilmRating();
+            filmrating.FilmId = Guid.Parse(idfilm);
+            filmrating.ProfileId = Guid.Parse(idprofile);
+            filmrating.liked = liked;
+            _servicefilmrating.AddFilmRating(filmrating);
+
+            return RedirectToAction("Index", "Films/Details/" + idfilm);
         }
     }
 }

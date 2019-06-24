@@ -13,7 +13,7 @@ namespace AmazingFilm.DomainModel.Entities
 
         public string Name { get; set; }
         //public virtual FilmGroup Group { get; set; }
-        public Guid IdGroup { get; set; }
+        public string GroupName { get; set; }
         public string Description { get; set; }
         public string PhotoUrl { get; set; }
         public ICollection<Comment> Comments { get; set; }

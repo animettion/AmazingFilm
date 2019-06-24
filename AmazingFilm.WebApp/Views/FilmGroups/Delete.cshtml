@@ -1,4 +1,4 @@
-﻿@model AmazingFilm.DomainModel.Entities.FilmGroup
+﻿@model AmazingFilm.DomainModel.ValueObjects.FilmGroup
 
 @{
     ViewData["Title"] = "Delete";
@@ -18,9 +18,9 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Name" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
     </form>

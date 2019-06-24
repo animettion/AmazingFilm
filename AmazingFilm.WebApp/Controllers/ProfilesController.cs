@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AmazingFilm.DomainModel.Entities;
-using AmazingFilm.WebApp.Data;
 using AmazingFilm.Infrastructure.DataAccess.Contexts;
 
 namespace AmazingFilm.WebApp.Controllers

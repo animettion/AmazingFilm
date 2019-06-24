@@ -7,7 +7,6 @@ namespace AmazingFilm.DomainModel.Interfaces.Repositories
 {
     public interface IFilmRatingRepository : IRepository<FilmRating,Guid>
     {
-        IEnumerable<FilmRating> FindByProfile(Guid idprofile);
-        IEnumerable<FilmRating> FindByFilm(Guid idfilm);
+        IEnumerable<FilmRating> GetByFilm(Guid idFilm);
     }
 }

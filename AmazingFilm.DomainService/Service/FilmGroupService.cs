@@ -6,6 +6,7 @@ using System.Linq;
 using AmazingFilm.DomainModel.Interfaces.Repositories;
 using AmazingFilm.DomainModel.Entities;
 using AmazingFilm.DomainService.Interfaces;
+using AmazingFilm.DomainModel.ValueObjects;
 
 namespace AmazingFilm.DomainService
 {
@@ -28,18 +29,18 @@ namespace AmazingFilm.DomainService
             _FilmGroupRepository.Update(FilmGroup);
         }
 
-        public void DeleteFilmGroup(Guid id)
+        public void DeleteFilmGroup(string name )
         {
-            _FilmGroupRepository.Delete(id);
+            _FilmGroupRepository.Delete(name);
         }
         public IEnumerable<FilmGroup> GetAllFilmGroups()
         {
             return _FilmGroupRepository.ReadAll();
         }
 
-        public FilmGroup GetFilmGroupById(Guid id)
+        public FilmGroup GetFilmGroupByName(string name)
         {
-            return _FilmGroupRepository.Read(id);
+            return _FilmGroupRepository.Read(name);
         }
 
         public IEnumerable<FilmGroup> SearchByName(string name)

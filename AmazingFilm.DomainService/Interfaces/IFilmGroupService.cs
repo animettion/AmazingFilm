@@ -1,5 +1,6 @@
 ﻿using AmazingFilm.DomainModel.Entities;
 using AmazingFilm.DomainModel.Interfaces.Repositories;
+using AmazingFilm.DomainModel.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,9 +15,9 @@ namespace AmazingFilm.DomainService.Interfaces
 
         IEnumerable<FilmGroup> GetAllFilmGroups();
 
-        FilmGroup GetFilmGroupById(Guid id);
+        FilmGroup GetFilmGroupByName(string name);
 
-        void DeleteFilmGroup(Guid id);
+        void DeleteFilmGroup(string name);
 
         IEnumerable<FilmGroup> SearchByName(string name);
 

@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AmazingFilm.DomainModel.Entities;
-using AmazingFilm.WebApp.Data;
 using AmazingFilm.Infrastructure.DataAccess.Contexts;
 using AmazingFilm.DomainService;
 using AmazingFilm.DomainService.Interfaces;
+using AmazingFilm.DomainModel.ValueObjects;
 
 namespace AmazingFilm.WebApp.Controllers
 {
@@ -22,6 +22,8 @@ namespace AmazingFilm.WebApp.Controllers
             _service = serv;
         }
 
+        
+
         // GET: FilmGroups
         public async Task<IActionResult> Index()
         {
@@ -29,14 +31,14 @@ namespace AmazingFilm.WebApp.Controllers
         }
 
         // GET: FilmGroups/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(string name)
         {
-            if (id == null)
+            if (name == null)
             {
                 return NotFound();
             }
 
-            var filmGroup = _service.GetFilmGroupById(id.Value);
+            var filmGroup = _service.GetFilmGroupByName(name);
             if (filmGroup == null)
             {
                 return NotFound();
@@ -56,12 +58,10 @@ namespace AmazingFilm.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Id")] FilmGroup filmGroup)
+        public async Task<IActionResult> Create([Bind("Name")] FilmGroup filmGroup)
         {
             if (ModelState.IsValid)
-            {
-                filmGroup.Id = Guid.NewGuid();
-                
+            {   
                 _service.AddFilmGroup(filmGroup);
                 return RedirectToAction(nameof(Index));
             }
@@ -69,14 +69,14 @@ namespace AmazingFilm.WebApp.Controllers
         }
 
         // GET: FilmGroups/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(string name)
         {
-            if (id == null)
+            if (name == null)
             {
                 return NotFound();
             }
 
-            var filmGroup = _service.GetFilmGroupById(id.Value);
+            var filmGroup = _service.GetFilmGroupByName(name);
             if (filmGroup == null)
             {
                 return NotFound();
@@ -89,9 +89,9 @@ namespace AmazingFilm.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Id")] FilmGroup filmGroup)
+        public async Task<IActionResult> Edit(string id, [Bind("Name")] FilmGroup filmGroup)
         {
-            if (id != filmGroup.Id)
+            if (id != filmGroup.Name)
             {
                 return NotFound();
             }
@@ -104,7 +104,7 @@ namespace AmazingFilm.WebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FilmGroupExists(filmGroup.Id))
+                    if (!FilmGroupExists(filmGroup.Name))
                     {
                         return NotFound();
                     }
@@ -119,14 +119,14 @@ namespace AmazingFilm.WebApp.Controllers
         }
 
         // GET: FilmGroups/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(string name)
         {
-            if (id == null)
+            if (name == null)
             {
                 return NotFound();
             }
 
-            var filmGroup = _service.GetFilmGroupById(id.Value);
+            var filmGroup = _service.GetFilmGroupByName(name);
             if (filmGroup == null)
             {
                 return NotFound();
@@ -138,16 +138,16 @@ namespace AmazingFilm.WebApp.Controllers
         // POST: FilmGroups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(string name)
         {
             
-            _service.DeleteFilmGroup(id);
+            _service.DeleteFilmGroup(name);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool FilmGroupExists(Guid id)
+        private bool FilmGroupExists(string name)
         {
-            return _service.GetFilmGroupById(id) != null;
+            return _service.GetFilmGroupByName(name) != null;
         }
     }
 }

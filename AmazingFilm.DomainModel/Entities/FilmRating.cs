@@ -6,9 +6,19 @@ namespace AmazingFilm.DomainModel.Entities
 {
     public class FilmRating : EntityBase<Guid>
     {
-        public Profile profile { get; set; }
-        public Film film { get; set; }
-        public bool watched { get; set; }
+
+        public Guid ProfileId { get; set; }
+        public Guid FilmId { get; set; }
+        
         public bool liked { get; set; }
+        public DateTime PublishDateTime { get; set; }
+        public Film film { get; set; }
+        public virtual Profile profile { get; set; }
+
+        public FilmRating()
+        {
+            PublishDateTime = DateTime.Now;
+        }
+
     }
 }

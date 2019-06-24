@@ -1,4 +1,5 @@
 ﻿using AmazingFilm.DomainModel.Entities;
+using AmazingFilm.DomainModel.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

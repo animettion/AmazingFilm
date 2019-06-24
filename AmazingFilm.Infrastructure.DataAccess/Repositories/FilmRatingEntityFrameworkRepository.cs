@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using AmazingFilm.Infrastructure.DataAccess.Factories;
 
 namespace AmazingFilm.Infrastructure.DataAccess.Repositories
 {
@@ -14,9 +15,9 @@ namespace AmazingFilm.Infrastructure.DataAccess.Repositories
 
         private readonly AmazingFilmContext _db;
 
-        public FilmRatingEntityFrameworkRepository(AmazingFilmContext db)
+        public FilmRatingEntityFrameworkRepository()
         {
-            _db = db;
+            _db = new AmazingFilmContextFactory().CreateDbContext(null);
         }
 
         public void Create(FilmRating entity)
@@ -31,20 +32,23 @@ namespace AmazingFilm.Infrastructure.DataAccess.Repositories
             _db.SaveChanges();
         }
 
-        public IEnumerable<FilmRating> FindByProfile(Guid idprofile)
+        public IEnumerable<FilmRating> GetByFilm(Guid Id)
         {
             //_db.FilmRatings.FromSql($"Select * from FilmRatings where Name LIKE %{name}%");
 
-            return _db.FilmRatings
-                .Where(cli => cli.profile.Id == idprofile);
-        }
+            var aux = _db.FilmRatings
+                .Where(cli => cli.FilmId == Id)
+                .Select(m => new FilmRating
+                {
+                    FilmId = m.FilmId,
+                    ProfileId = m.ProfileId,
+                    profile = _db.Profiles.Where(p => p.Id == m.ProfileId).FirstOrDefault(),
+                    PublishDateTime = m.PublishDateTime,
+                    liked = m.liked,
+                    Id = Id
+                });
 
-        public IEnumerable<FilmRating> FindByFilm(Guid idfilme)
-        {
-            //_db.FilmRatings.FromSql($"Select * from FilmRatings where Name LIKE %{name}%");
-
-            return _db.FilmRatings
-                .Where(cli => cli.film.Id == idfilme);
+            return aux;
         }
 
         public FilmRating Read(Guid id)
@@ -54,8 +58,20 @@ namespace AmazingFilm.Infrastructure.DataAccess.Repositories
 
         public IEnumerable<FilmRating> ReadAll()
         {
-            return _db.FilmRatings;
+            var aux = _db.FilmRatings
+               .Select(m => new FilmRating
+               {
+                   FilmId = m.FilmId,
+                   ProfileId = m.ProfileId,
+                   profile = _db.Profiles.Where(p => p.Id == m.ProfileId).FirstOrDefault(),
+                   PublishDateTime = m.PublishDateTime,
+                   liked = m.liked,
+                   Id = m.Id
+               });
+
+            return aux;
         }
+
 
         public void Update(FilmRating entity)
         {

@@ -5,7 +5,23 @@
     ViewData["Title"] = "Details";
 }
 
+<script type="text/jscript">
+    $("btnComment").click(function (e) {
+        $.ajax({
+            url: "/Films/AddComment",
+            data: {
+                comentario: $("#comentario").val(),
+                id: $("#id").val()
+            },
+            dataType: "json",
+            type: "POST",
+            success: function (data) {
+                //aqui voce pode dar um refreh na tela pra mostrar o comentario novo cadastrado
 
+            }
+        });
+    });
+</script>
 <div>
     <h2>  </h2>
     <hr />
@@ -23,15 +39,30 @@
             <td>  @Html.DisplayFor(model => model.Description)</td>
         </tr>
         <tr>
-            <td>
-                @*<div class="form-group">
-                    <label asp-for="Text" class="control-label"></label>
-                    <input asp-for="Text" class="form-control" />
-                    <span asp-validation-for="Text" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>*@
+            <td colspan="2">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th scope="row">
+                                Comentar:
+                                @using (Html.BeginForm("AddComment", "Films", new { idFilm = Model.Id }))
+                                {
+                                    <textarea id="comentario" name="comentario" class="form-control" style="width:100%"></textarea>
+
+                                    <input type="submit" class="btn btn-primary" value="Enviar" />
+                                }
+                            </th>
+                            <td>
+                                @ViewBag.qtdLiked Gostaram <br />
+                                <input type="button" class="btn btn-primary" value="Gostei" onclick="location.href='@Url.Action("AddRating", "Films" ,new { liked=true, idFilm=Model.Id })'" />
+                            </td>
+                            <td>
+                                @ViewBag.qtdNotLiked  não Gostaram <br />
+                                <input type="button" class="btn btn-primary" value="Não Gostei" onclick="location.href='@Url.Action("AddRating", "Films" ,new { liked=false , idFilm=Model.Id})'" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </td>
         </tr>
         <tr>
