@@ -69,14 +69,14 @@ namespace AmazingFilm.WebApp.Controllers
         }
 
         // GET: FilmGroups/Edit/5
-        public async Task<IActionResult> Edit(string name)
+        public async Task<IActionResult> Edit(string id)
         {
-            if (name == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var filmGroup = _service.GetFilmGroupByName(name);
+            var filmGroup = _service.GetFilmGroupByName(id);
             if (filmGroup == null)
             {
                 return NotFound();
@@ -89,9 +89,9 @@ namespace AmazingFilm.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name")] FilmGroup filmGroup)
+        public async Task<IActionResult> Edit(string Id, [Bind("Name")] FilmGroup filmGroup)
         {
-            if (id != filmGroup.Name)
+            if (Id != filmGroup.Name)
             {
                 return NotFound();
             }

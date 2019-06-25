@@ -11,6 +11,7 @@ namespace AmazingFilm.DomainModel.ValueObjects
         [Key]
         [Required(AllowEmptyStrings = false)]
         public string Name { get; set; }
+        
 
         public FilmGroup(string name)
         {

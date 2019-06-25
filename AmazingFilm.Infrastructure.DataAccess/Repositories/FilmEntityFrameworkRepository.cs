@@ -45,8 +45,10 @@ namespace AmazingFilm.Infrastructure.DataAccess.Repositories
         {
 
             CommentEntityFrameworkRepository commtFramework = new CommentEntityFrameworkRepository();
+            FilmRatingEntityFrameworkRepository ratingFramework = new FilmRatingEntityFrameworkRepository();
             var aux = _db.Films.Find(id);
             aux.Comments = commtFramework.GetByFilm(id).ToList();
+            aux.FilmRatings = ratingFramework.GetByFilm(id).ToList();
             return aux;
         }
 

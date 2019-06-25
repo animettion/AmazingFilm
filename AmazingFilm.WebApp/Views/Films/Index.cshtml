@@ -23,24 +23,25 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td class="col-md-2">
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td class="col-md-6">
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td class="col-md-2">
-                <img src="@item.PhotoUrl" style="max-width:200px;height:auto" />
-            </td>
-            <td class="col-md-2">
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a> <br/>
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a> <br />
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="col-md-3">
+                    <b> @Html.DisplayFor(modelItem => item.Name)</b>
+                </td>
+                <td class="col-md-6">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td class="col-md-2">
+                    <img src="@item.PhotoUrl" style="max-width:200px;height:auto" />
+                </td>
+                <td class="col-md-1">
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary" style="width:70px">Edit</a> <br />
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info" style="width:70px">Details</a> <br />
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" style="width:70px">Delete</a>
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

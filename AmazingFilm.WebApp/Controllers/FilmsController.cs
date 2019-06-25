@@ -52,9 +52,9 @@ namespace AmazingFilm.WebApp.Controllers
                 return NotFound();
             }
             //dynamic mymodel = new ExpandoObject();
-            var rating = _servicefilmrating.GetByFilm(film.Id);
-            ViewBag.qtdLiked = rating.Where(p => p.liked == true).Count();
-            ViewBag.qtdNotLiked = rating.Where(p => p.liked == false).Count();
+            //var rating = _servicefilmrating.GetByFilm(film.Id);
+            ViewBag.qtdLiked = film.FilmRatings.Where(p => p.liked == true).Count();
+            ViewBag.qtdNotLiked = film.FilmRatings.Where(p => p.liked == false).Count();
 
             return View(film);
         }

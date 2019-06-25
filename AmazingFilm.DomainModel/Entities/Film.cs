@@ -9,14 +9,15 @@ namespace AmazingFilm.DomainModel.Entities
         public Film()
         {
             Comments = new List<Comment>();
+            FilmRatings = new List<FilmRating>();
         }
 
         public string Name { get; set; }
-        //public virtual FilmGroup Group { get; set; }
         public string GroupName { get; set; }
         public string Description { get; set; }
         public string PhotoUrl { get; set; }
         public ICollection<Comment> Comments { get; set; }
+        public ICollection<FilmRating> FilmRatings { get; set; }
 
     }
 }
