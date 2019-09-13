@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="StorageAccountConnectionString" xml:space="preserve">
-    <value>DefaultEndpointsProtocol=https;AccountName=amazingfilmstorage;AccountKey=zXxDPPLufcYIj1zZIsCeaqmqR5mtLkm0WoVqYqpo8DnyuvfNPyZknB0rNH+1WewkK02W3iAuMBM9IC+H7tiDeQ==;EndpointSuffix=core.windows.net</value>
+    <value>DefaultEndpointsProtocol=https;AccountName=photofilm;AccountKey=AUYoT4J6k0TWEjQ8oMHIFevzaHZotPRJpr1poZ0mK6lV/3nrdm381QXIjG+1643ZahMz3wrvzuphzP13d4kz5Q==;EndpointSuffix=core.windows.net</value>
   </data>
 </root>

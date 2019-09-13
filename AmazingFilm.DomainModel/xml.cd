@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AmazingFilm.DomainModel.Entities.Comment">
+    <Position X="3" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAEAAAAAQACgAAgAA=</HashCode>
+      <FileName>Entities\Comment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AmazingFilm.DomainModel.Entities.EntityBase&lt;EntityId&gt;">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\EntityBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AmazingFilm.DomainModel.Entities.Film">
+    <Position X="9.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAggAAAgAAAAAQAAAAAAAAAAAAAAAAAIAE=</HashCode>
+      <FileName>Entities\Film.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AmazingFilm.DomainModel.Entities.FilmRating">
+    <Position X="5.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAABAAAAAAAAAAAAAAEAAAAAQAAgAAgAA=</HashCode>
+      <FileName>Entities\FilmRating.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AmazingFilm.DomainModel.Entities.Profile">
+    <Position X="7.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAgAAAAAQAAAAIAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Profile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -61,7 +61,7 @@ namespace AmazingFilm.Infrastructure.AzureStorage.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a DefaultEndpointsProtocol=https;AccountName=amazingfilmstorage;AccountKey=zXxDPPLufcYIj1zZIsCeaqmqR5mtLkm0WoVqYqpo8DnyuvfNPyZknB0rNH+1WewkK02W3iAuMBM9IC+H7tiDeQ==;EndpointSuffix=core.windows.net.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a DefaultEndpointsProtocol=https;AccountName=photofilm;AccountKey=AUYoT4J6k0TWEjQ8oMHIFevzaHZotPRJpr1poZ0mK6lV/3nrdm381QXIjG+1643ZahMz3wrvzuphzP13d4kz5Q==;EndpointSuffix=core.windows.net.
         /// </summary>
         internal static string StorageAccountConnectionString {
             get {

@@ -120,4 +120,7 @@
   <data name="DbConnectionString" xml:space="preserve">
     <value>Data Source=amazingfilm.database.windows.net;Initial Catalog=amazingFilm;User ID=us_amazingfilm;Password=US_amazing;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False</value>
   </data>
+  <data name="DbConnectionString2" xml:space="preserve">
+    <value>Data Source=amazingfilm.database.windows.net;Initial Catalog=amazingFilm;User ID=us_amazingfilm;Password=RuhanGay;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False</value>
+  </data>
 </root>

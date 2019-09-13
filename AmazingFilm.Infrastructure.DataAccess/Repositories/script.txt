@@ -1,0 +1,20 @@
+﻿create table Comments("Id" uniqueidentifier,"ProfileId" uniqueidentifier ,"FilmId" uniqueidentifier , 
+"Text" text, "PublishDateTime" datetime);
+
+create table Films("Id" uniqueidentifier, "Name" text, "GroupName" text,"Description" text,"PhotoUrl" text);
+
+create table FilmGroups("Id" uniqueidentifier,"Name" text);
+
+create table FilmRatings("Id" uniqueidentifier,"ProfileId" uniqueidentifier, "FilmId" uniqueidentifier,"liked" bit,"PublishDateTime" datetime) ;
+
+create table Profiles("Id" uniqueidentifier,"Name" text, "Birthday" datetime, "PhotoUrl" text, "Email" text, "Password" text);
+
+
+
+insert into FilmGroups values(NEWID(),'Terror');
+
+--drop table Comments;
+--drop table Films;
+--drop table FilmGroups;
+--drop table FilmRatings;
+--drop table Profiles;

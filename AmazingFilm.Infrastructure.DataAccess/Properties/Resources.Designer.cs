@@ -68,5 +68,14 @@ namespace AmazingFilm.Infrastructure.DataAccess.Properties {
                 return ResourceManager.GetString("DbConnectionString", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Data Source=amazingfilm.database.windows.net;Initial Catalog=amazingFilm;User ID=us_amazingfilm;Password=RuhanGay;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False.
+        /// </summary>
+        public static string DbConnectionString2 {
+            get {
+                return ResourceManager.GetString("DbConnectionString2", resourceCulture);
+            }
+        }
     }
 }
